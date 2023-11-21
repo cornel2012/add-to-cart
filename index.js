@@ -1,5 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, onValue, push, ref, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import {
+  getDatabase,
+  onValue,
+  push,
+  ref,
+  remove,
+  update,
+} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const appSettings = {
   databaseURL: "https://shopping-list-a3393-default-rtdb.firebaseio.com/",
@@ -13,12 +20,28 @@ const inputFieldEl = document.getElementById("input-field");
 const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
 
-addButtonEl.addEventListener("click", function () {
+const addItemToList = () => {
   let inputValue = inputFieldEl.value;
+  let item = {
+    value: inputValue,
+    selected: false,
+  };
 
-  push(shoppingListInDB, inputValue);
+  if (inputValue) {
+    push(shoppingListInDB, item);
 
-  clearInputFieldEl();
+    clearInputFieldEl();
+  }
+};
+
+addButtonEl.addEventListener("click", function () {
+  addItemToList();
+});
+
+inputFieldEl.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    addItemToList();
+  }
 });
 
 onValue(shoppingListInDB, function (snapshot) {
@@ -29,13 +52,14 @@ onValue(shoppingListInDB, function (snapshot) {
 
     for (let i = 0; i < itemsArray.length; i++) {
       let currentItem = itemsArray[i];
-      let currentItemID = currentItem[0];
-      let currentItemValue = currentItem[1];
 
       appendItemToShoppingListEl(currentItem);
     }
+    // const removeAllBtn = document.createElement("button");
+    // removeAllBtn.id='remove-all'
+    // shoppingListEl.insertAdjacentHTML('afterend', `<button id="remove-all" title="Remove all products from list">Remove all products</button>`);
   } else {
-    shoppingListEl.innerHTML = "No items here... yet";
+    shoppingListEl.innerHTML = 'No product here... yet';
   }
 });
 
@@ -49,13 +73,36 @@ function clearInputFieldEl() {
 
 function appendItemToShoppingListEl(item) {
   let itemID = item[0];
-  let itemValue = item[1];
+  let itemValue = item[1].value;
+  let itemSelected = item[1].selected;
 
   let newEl = document.createElement("li");
+  if (itemSelected) {
+    newEl.className = "selected";
+    newEl.title = "Click to deselect";
+  } else {
+    newEl.title = "Click to select";
+  }
+
+  let removeBtn = document.createElement("i");
+  removeBtn.className = "btn-remove fas fa-trash";
+  removeBtn.title = "Click to remove from list";
 
   newEl.textContent = itemValue;
+  newEl.appendChild(removeBtn);
 
-  newEl.addEventListener("click", function () {
+  newEl.addEventListener("click", function (e) {
+    const updates = {};
+    if (itemSelected) {
+      updates[`shoppingList/${itemID}/selected/`] = false;
+    } else {
+      updates[`shoppingList/${itemID}/selected/`] = true;
+    }
+    update(ref(database), updates);
+  });
+
+  removeBtn.addEventListener("click", function (e) {
+    e.stopImmediatePropagation();
     let exactLocationOfItemInDB = ref(database, `shoppingList/${itemID}`);
 
     remove(exactLocationOfItemInDB);
