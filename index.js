@@ -16,6 +16,7 @@ const app = initializeApp(appSettings);
 const database = getDatabase(app);
 const shoppingListInDB = ref(database, "shoppingList");
 
+const header = document.getElementById("header");
 const inputFieldEl = document.getElementById("input-field");
 const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
@@ -59,7 +60,7 @@ onValue(shoppingListInDB, function (snapshot) {
     // removeAllBtn.id='remove-all'
     // shoppingListEl.insertAdjacentHTML('afterend', `<button id="remove-all" title="Remove all products from list">Remove all products</button>`);
   } else {
-    shoppingListEl.innerHTML = 'No product here... yet';
+    shoppingListEl.innerHTML = `You don't have any product in your Shopping List`;
   }
 });
 

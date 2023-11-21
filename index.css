@@ -12,12 +12,24 @@ html, body {
     display: flex;
     flex-direction: column;
     max-width: 320px;
-    margin: 30px auto;
+    margin: 0 auto;
+    padding: 15px;
 }
 
-img {
-    width: 100%;
-    margin: 30px auto;
+.header {
+    background: #c1c7e5;
+    margin: 15px 0 10px;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.header img {
+    max-height: 100px;    
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
 }
 
 input {
@@ -29,7 +41,7 @@ input {
     font-size: 20px;
     text-align: center;
     font-family: 'Rubik', sans-serif;
-    margin: 10px 0;
+    margin: 0 0 10px;
 }
 
 button {
