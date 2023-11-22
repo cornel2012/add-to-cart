@@ -3,7 +3,9 @@ import {defineConfig} from 'vite'
 
 export default defineConfig({
 	plugins: [],
-	build: {
-        outDir: 'public',
+	root: './',
+    build: {
+        outDir: 'dist',
     },
+    publicDir: 'dist/assets',
 })
