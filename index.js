@@ -1,12 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import {
-  getDatabase,
-  onValue,
-  push,
-  ref,
-  remove,
-  update,
-} from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+import { getDatabase, onValue, push, ref, remove, update } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const appSettings = {
   databaseURL: "https://shopping-list-a3393-default-rtdb.firebaseio.com/",
@@ -30,10 +23,22 @@ const addItemToList = () => {
 
   if (inputValue) {
     push(shoppingListInDB, item);
+	animateHeader('assets/animated-cat.gif', 1000);
 
     clearInputFieldEl();
   }
 };
+
+const animateHeader = (path, msDuration) => {
+    let newItemAnimation = document.createElement("img");
+    newItemAnimation.className = "animate-header";
+    newItemAnimation.src = path;
+
+    header.appendChild(newItemAnimation);
+	setTimeout(() => {
+		header.removeChild(newItemAnimation)
+	}, msDuration ? msDuration : 500);
+}
 
 addButtonEl.addEventListener("click", function () {
   addItemToList();
@@ -95,10 +100,11 @@ function appendItemToShoppingListEl(item) {
   newEl.addEventListener("click", function (e) {
     const updates = {};
     if (itemSelected) {
-      updates[`shoppingList/${itemID}/selected/`] = false;
+      updates[`shoppingList/${itemID}/selected/`] = false;	  
     } else {
       updates[`shoppingList/${itemID}/selected/`] = true;
-    }
+    }	
+	animateHeader('assets/cart.gif');
     update(ref(database), updates);
   });
 
