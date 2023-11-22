@@ -2,5 +2,10 @@ import {defineConfig} from 'vite'
 
 
 export default defineConfig({
-	plugins: []	
+	plugins: [],
+	root: './',
+    build: {
+        outDir: 'dist',
+    },
+    publicDir: 'assets'
 })

@@ -23,7 +23,7 @@ const addItemToList = () => {
 
   if (inputValue) {
     push(shoppingListInDB, item);
-	animateHeader('/images/animated-cat.gif', 1000);
+	animateHeader('/assets/animated-cat.gif', 1000);
 
     clearInputFieldEl();
   }
@@ -104,7 +104,7 @@ function appendItemToShoppingListEl(item) {
     } else {
       updates[`shoppingList/${itemID}/selected/`] = true;
     }	
-	animateHeader('/images/cart.gif');
+	animateHeader('/assets/cart.gif');
     update(ref(database), updates);
   });
 
