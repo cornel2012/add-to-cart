@@ -17,6 +17,10 @@ body {
   padding: 15px;
 }
 
+.hidden {
+  display: none;
+}
+
 .header {
   /* position: relative;
   background: #c1c7e5;
@@ -76,11 +80,19 @@ button {
   font-size: 20px;
   text-align: center;
   font-family: "Rubik", sans-serif;
+  margin-bottom: 10px;
 }
 
 button:hover {
   background-color: #7acaa6;
   cursor: pointer;
+}
+
+button#remove-all-button {
+  background-color:#fd8087;
+}
+button#remove-all-button:hover {
+  background-color: #FF0000;
 }
 
 ul {
@@ -89,7 +101,7 @@ ul {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 10px 0;
+  margin: 0 0 10px;
 }
 
 ul li {
